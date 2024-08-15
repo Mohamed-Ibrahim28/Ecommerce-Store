@@ -28,18 +28,26 @@ const DetailsPage = () => {
   const { state, dispatch } = useContext(CardContext);
   const [currentProduct, setCurrentProduct] = useState([]);
 
+  const params = useParams();
+  const id = params.id;
+
   useEffect(() => {
     const fetchAPI = async () => {
       setCurrentProduct(await GetSingleProducts(id));
     };
     fetchAPI();
-  }, []);
-
-  const params = useParams();
-  const id = params.id;
+  }, [id]);
 
   return (
-    <Container maxWidth="lg">
+    <Container
+      maxWidth="lg"
+      sx={{
+        pt: 4,
+        backgroundColor: "#f5f8fb", // Soft light blue background
+        minHeight: "100vh", // Full height page
+        paddingBottom: "40px",
+      }}
+    >
       <Grid container>
         {currentProduct.id ? (
           <Box
@@ -55,105 +63,106 @@ const DetailsPage = () => {
             }}
           >
             <Grid item xs={12} md={6} mt={10}>
-              <img
-                src={currentProduct.image}
-                alt={`product/${id}`}
-                width={"190px"}
-              />
+              <Box
+                component="div"
+                sx={{
+                  borderRadius: "12px",
+                  boxShadow: "0 3px 15px rgba(0, 0, 0, 0.1)",
+                  width: "300px",
+                  margin: "auto",
+                  backgroundColor: "#ffffff", // White background for the image container
+                  padding: "20px", // Padding around the image
+                }}
+              >
+                <img
+                  src={currentProduct.image}
+                  alt={`product/${id}`}
+                  width={"100%"}
+                  style={{
+                    borderRadius: "12px",
+                  }}
+                />
+              </Box>
             </Grid>
-            <Grid item xs={12} my={7}>
+            <Grid item xs={12} my={7} md={6}>
               <Box
                 component="div"
                 mt={5}
                 sx={{
-                  border: "solid 1px #dfdfdf",
-                  borderRadius: "10px",
-                  padding: "20px",
+                  border: "solid 1px #e0e0e0",
+                  borderRadius: "12px",
+                  padding: "25px",
+                  backgroundColor: "#ffffff", // White background for the text container
+                  "&:hover": {
+                    boxShadow: "0px 6px 25px rgba(0, 0, 0, 0.15)",
+                    transition: "all 0.3s ease-in-out",
+                    transform: "translateY(-5px)",
+                  },
                 }}
               >
-                <Typography variant="body1" color="text.secondary" mb={4}>
+                <Typography
+                  variant="h6"
+                  color="text.primary"
+                  fontWeight="600"
+                  mb={3}
+                  sx={{ color: "#0073e6" }} // Blue color for product title
+                >
                   {currentProduct.title}
                 </Typography>
 
-                <Box component="div" display="flex">
+                <Box component="div" display="flex" mb={2}>
                   <Typography
                     component="p"
                     variant="body1"
                     color="primary"
                     fontWeight={700}
-                    display="flex"
                     mr={1}
                   >
                     Info:
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    color="text.secondary"
-                    fontWeight={400}
-                  >
+                  <Typography variant="body1" color="text.secondary">
                     {currentProduct.description}
                   </Typography>
                 </Box>
 
-                <Box component="div" display="flex" alignItems="center">
+                <Box component="div" display="flex" alignItems="center" mb={2}>
                   <Typography
                     variant="body1"
                     color="primary"
                     fontWeight={700}
-                    sx={{ lineHeight: 3 }}
-                    display="flex"
-                    alignItems="center"
                     mr={1}
                   >
                     Category:
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    color="text.secondary"
-                    fontWeight={400}
-                  >
+                  <Typography variant="body1" color="text.secondary">
                     {currentProduct.category}
                   </Typography>
                 </Box>
 
-                <Box component="div" display="flex" alignItems="center">
+                <Box component="div" display="flex" alignItems="center" mb={2}>
                   <Typography
                     variant="body1"
                     color="primary"
                     fontWeight={700}
-                    sx={{ lineHeight: 3 }}
-                    display="flex"
-                    alignItems="center"
                     mr={1}
                   >
                     Price:
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    color="text.secondary"
-                    fontWeight={400}
-                  >
+                  <Typography variant="body1" color="text.secondary">
                     ${currentProduct.price}
                   </Typography>
                 </Box>
 
-                <Box component="div" display="flex" alignItems="center">
+                <Box component="div" display="flex" alignItems="center" mb={2}>
                   <Typography
                     variant="body1"
                     color="primary"
                     fontWeight={700}
-                    display="flex"
-                    alignItems="center"
-                    sx={{ lineHeight: 3 }}
                     mr={1}
                   >
                     Rate:
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    color="text.secondary"
-                    fontWeight={400}
-                  >
+                  <Typography variant="body1" color="text.secondary">
                     {currentProduct.rating.rate}
                   </Typography>
                   <Rating
@@ -168,10 +177,10 @@ const DetailsPage = () => {
                 <Typography
                   variant="body2"
                   color="text.secondary"
-                  fontWeight={400}
-                  sx={{ lineHeight: 1 }}
+                  mb={3}
+                  sx={{ fontWeight: 500 }}
                 >
-                  {currentProduct.rating.count} items of this product left!
+                  {currentProduct.rating.count} items left in stock.
                 </Typography>
 
                 <CardActions>
@@ -210,11 +219,7 @@ const DetailsPage = () => {
                       variant="outlined"
                       color="info"
                       sx={{ ml: 1 }}
-                      label={
-                        quantityCount(state, currentProduct.id) > 0 && (
-                          <span>{quantityCount(state, currentProduct.id)}</span>
-                        )
-                      }
+                      label={quantityCount(state, currentProduct.id)}
                     />
                   )}
                   {isSelected(state, currentProduct.id) ? (
@@ -234,6 +239,7 @@ const DetailsPage = () => {
                     <Button
                       size="small"
                       variant="contained"
+                      sx={{ backgroundColor: "#0073e6", color: "#fff" }} // Blue button with white text
                       onClick={() =>
                         dispatch({
                           type: "ADD_ITEM",
@@ -241,7 +247,7 @@ const DetailsPage = () => {
                         })
                       }
                     >
-                      Add to card
+                      Add to cart
                     </Button>
                   )}
                 </CardActions>
@@ -249,9 +255,10 @@ const DetailsPage = () => {
                   to="/products"
                   style={{
                     display: "flex",
-                    width: "fit-content",
-                    marginTop: "15px",
-                    color: "#00000099",
+                    alignItems: "center",
+                    textDecoration: "none",
+                    color: "#0073e6", // Blue color for the back link
+                    marginTop: "20px",
                   }}
                 >
                   <ArrowBackIosIcon />
@@ -266,9 +273,6 @@ const DetailsPage = () => {
           </Grid>
         )}
       </Grid>
-      {/* <Box sx={{ display: { xs: "none", sm: "flex" } }}>
-        <Banner />
-      </Box> */}
     </Container>
   );
 };
