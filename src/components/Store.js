@@ -44,15 +44,24 @@ const Store = () => {
           justifyContent: "center",
           alignItems: "center",
           height: "100vh",
+          backgroundColor: "#f5f8fb", // Light blue background
         }}
       >
-        <CircularProgress sx={{ color: "#1976d2" }} />
+        <CircularProgress sx={{ color: "#0073e6" }} />
       </Box>
     );
   }
 
   return (
-    <Container sx={{ py: 6 }}>
+    <Container
+      maxWidth="lg"
+      sx={{
+        py: 6,
+        backgroundColor: "#f5f8fb", // Light blue background
+        minHeight: "100vh", // Full height page
+        paddingBottom: "40px",
+      }}
+    >
       <Grid container spacing={4}>
         {categories.length ? (
           categories.map((category) => (
@@ -61,10 +70,11 @@ const Store = () => {
                 elevation={3}
                 sx={{
                   p: 3,
-                  borderRadius: 2,
-                  backgroundColor: "#f0f8ff",
-                  borderLeft: `6px solid #1976d2`,
-                  "&:hover": { backgroundColor: "#e0f7fa" },
+                  borderRadius: "12px",
+                  backgroundColor: "#ffffff", // White background for the paper section
+                  borderLeft: `6px solid #0073e6`,
+                  "&:hover": { backgroundColor: "#ff00ff00" }, // Hover effect
+                  boxShadow: "0px 6px 25px rgba(0, 0, 0, 0.1)", // Soft shadow
                 }}
               >
                 <Typography
@@ -73,7 +83,7 @@ const Store = () => {
                     mb: 2,
                     fontWeight: "bold",
                     textAlign: "center",
-                    color: "#1976d2",
+                    color: "#0073e6", // Blue color for category titles
                   }}
                 >
                   {category}
@@ -81,7 +91,21 @@ const Store = () => {
                 {filterProducts(category).length > 0 ? (
                   <Grid container spacing={3}>
                     {filterProducts(category).map((product) => (
-                      <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
+                      <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        lg={3}
+                        key={product.id}
+                        sx={{
+                          "&:hover": {
+                            boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.1)", // Hover shadow for product cards
+                            transition: "all 0.3s ease-in-out",
+                            transform: "translateY(-5px)", // Hover lift effect
+                          },
+                        }}
+                      >
                         <Products productData={product} />
                       </Grid>
                     ))}
@@ -109,9 +133,10 @@ const Store = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 height: "100vh",
+                backgroundColor: "#f5f8fb", // Keep consistent background
               }}
             >
-              <CircularProgress sx={{ color: "#1976d2" }} />
+              <CircularProgress sx={{ color: "#0073e6" }} />
             </Box>
           </Grid>
         )}

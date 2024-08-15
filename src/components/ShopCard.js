@@ -13,10 +13,21 @@ const ShopCard = () => {
   const { state, dispatch } = useContext(CardContext);
 
   return (
-    <Container>
+    <Container
+      sx={{
+        py: 6,
+        backgroundColor: "#f5f8fb", // Light blue background
+        minHeight: "100vh", // Full height page
+      }}
+    >
       <Box
         component="div"
-        sx={{ p: 4, backgroundColor: "#f0f8ff", borderRadius: 4 }}
+        sx={{
+          p: 4,
+          backgroundColor: "#ffffff", // White background
+          borderRadius: 4,
+          boxShadow: "0px 6px 25px rgba(0, 0, 0, 0.1)", // Soft shadow for main box
+        }}
       >
         {state.itemsCounter > 0 && (
           <Paper
@@ -24,8 +35,9 @@ const ShopCard = () => {
             sx={{
               p: 3,
               mb: 4,
-              backgroundColor: "#e3f2fd",
-              borderLeft: `6px solid #1976d2`,
+              backgroundColor: "#f5f8fb",
+              borderLeft: `6px solid #0073e6`, // Blue accent border
+              boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.1)", // Hover shadow
             }}
           >
             <Box
@@ -71,7 +83,14 @@ const ShopCard = () => {
                 variant="contained"
                 color="success"
                 onClick={() => dispatch({ type: "CHECKOUT" })}
-                sx={{ mr: 2, px: 4 }}
+                sx={{
+                  mr: 2,
+                  px: 4,
+
+                  "&:hover": {
+                    backgroundColor: "#2e7d32",
+                  },
+                }}
               >
                 Check Out
               </Button>
@@ -95,7 +114,12 @@ const ShopCard = () => {
           (
             <Paper
               elevation={3}
-              sx={{ p: 4, backgroundColor: "#e8f5e9", textAlign: "center" }}
+              sx={{
+                p: 4,
+                backgroundColor: "#e8f5e9", // Light green background for success
+                textAlign: "center",
+                boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.1)", // Soft shadow for success message
+              }}
             >
               <Typography variant="h4" color="primary" fontWeight={700} mb={2}>
                 Checked Out Successfully!
@@ -104,7 +128,7 @@ const ShopCard = () => {
                 to="/products"
                 style={{
                   textDecoration: "none",
-                  color: "#1976d2",
+                  color: "#0073e6",
                   fontWeight: "bold",
                 }}
               >
@@ -116,7 +140,12 @@ const ShopCard = () => {
         {!state.checkout && state.itemsCounter === 0 && (
           <Paper
             elevation={3}
-            sx={{ p: 4, backgroundColor: "#ffebee", textAlign: "center" }}
+            sx={{
+              p: 4,
+              backgroundColor: "#ffebee", // Light red background for empty cart
+              textAlign: "center",
+              boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.1)", // Soft shadow for empty cart
+            }}
           >
             <Typography variant="h4" color="primary" fontWeight={700} mb={2}>
               Your cart is empty!
@@ -125,7 +154,7 @@ const ShopCard = () => {
               to="/products"
               style={{
                 textDecoration: "none",
-                color: "#d32f2f",
+                color: "#d32f2f", // Dark red for the link
                 fontWeight: "bold",
               }}
             >
@@ -142,15 +171,14 @@ const ShopCard = () => {
                 mb: 3, // Slightly smaller margin
                 padding: 2, // Add some padding
                 "&:hover": {
-                  boxShadow: 3, // Subtle shadow effect
+                  boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.1)", // Hover shadow
                   transform: "translateY(-3px)", // Slight lift on hover
-                  transition: "all 0.2s ease-in-out", // Quick transition
+                  transition: "all 0.3s ease-in-out", // Smooth hover transition
                 },
               }}
             >
               <Box sx={{ transform: "scale(0.95)" }}>
-                {" "}
-                {/* Smaller size */}
+                {/* Slightly smaller scale for each card */}
                 <Card data={item} />
               </Box>
             </Box>
